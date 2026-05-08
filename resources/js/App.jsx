@@ -14,9 +14,10 @@ import { ProviderCartContext } from "./ServiceContext/ProviderCartContext";
 export const App=()=>{
    return(
     <BrowserRouter>
-    <NavBar/>
     <ProviderContext>
       <ProviderCartContext>
+    <NavBar/>
+
       <Routes>
         <Route path="/" element={<Catalogue/>}/>
         <Route path="/register" element={<Register/>}/>

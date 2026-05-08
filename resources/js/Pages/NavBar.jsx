@@ -1,10 +1,11 @@
 import { Navbar, Container, Nav, Form, Button, Badge } from "react-bootstrap";
 import { useState } from "react";
+import { useCart } from "../ServiceContext/ProviderCartContext";
 
 export const NavBar = ({ cartCount = 0 }) => {
 
   const [search, setSearch] = useState("");
-
+ const {cart}=useCart();
   return (
     <Navbar expand="lg" className="bg-white shadow-sm py-3">
 
@@ -50,12 +51,12 @@ export const NavBar = ({ cartCount = 0 }) => {
 
               🛒 Cart
 
-              {cartCount > 0 && (
+              {cart.product.length > 0 && (
                 <Badge
                   bg="danger"
                   className="position-absolute top-0 start-100 translate-middle"
                 >
-                  {cartCount}
+                  {cart.product.length}
                 </Badge>
               )}
 
