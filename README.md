@@ -1,66 +1,173 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🛒 E-Commerce Platform
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A full-stack e-commerce web application built with **Laravel** (REST API) and **React.js** (frontend). Customers can browse products, add items to cart, and complete purchases securely.
 
-## About Laravel
+🌐 **Live Demo:** [shopambroise.shop](https://shopambroise.shop) *(In Development)*
+🐙 **Repository:** [github.com/mmarcos14/react-laravel-ecommerce](https://github.com/mmarcos14/react-laravel-ecommerce)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-----
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🛠️ Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+|Layer   |Technology                                                    |
+|--------|--------------------------------------------------------------|
+|Frontend|React.js, React Bootstrap, React Router, Axios, React Toastify|
+|Backend |Laravel (PHP), REST API                                       |
+|Auth    |Laravel Sanctum (Token-based)                                 |
+|Database|MySQL                                                         |
+|Hosting |Hostinger                                                     |
 
-## Learning Laravel
+-----
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## ✨ Features
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 🔐 Authentication & Profile
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- User registration and login
+- Secure token-based authentication with Laravel Sanctum
+- Protected routes for customers and admins
+- User profile management
 
-## Laravel Sponsors
+### 🛍️ Customer Side
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- Browse and search products by category
+- View product details (image, price, description)
+- Add products to shopping cart
+- Update quantities or remove items from cart
+- Checkout process
+- Fully responsive design (mobile & desktop)
 
-### Premium Partners
+### ⚙️ Admin Dashboard
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+- Add, edit, and delete products
+- Manage product categories
+- Upload product images
+- View and manage orders
 
-## Contributing
+### 📊 General
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- Real-time cart updates
+- Clean and intuitive UI
 
-## Code of Conduct
+-----
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## ⚙️ Installation & Setup
 
-## Security Vulnerabilities
+### Prerequisites
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- PHP >= 8.1
+- Composer
+- Node.js & npm
+- MySQL
 
-## License
+### Backend (Laravel)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+# Clone the repository
+git clone https://github.com/mmarcos14/react-laravel-ecommerce.git
+cd react-laravel-ecommerce
+
+# Install dependencies
+composer install
+
+# Copy environment file
+cp .env.example .env
+
+# Configure your database in .env
+DB_DATABASE=your_database
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+
+# Generate app key
+php artisan key:generate
+
+# Run migrations
+php artisan migrate --seed
+
+# Start the server
+php artisan serve
+```
+
+### Frontend (React.js)
+
+```bash
+# Navigate to frontend folder
+cd frontend
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm start
+```
+
+-----
+
+## 📁 Project Structure
+
+```
+├── app/
+│   ├── Http/Controllers/    # API Controllers
+│   └── Models/              # Eloquent Models
+├── routes/
+│   └── api.php              # API Routes
+├── database/
+│   ├── migrations/          # Database Migrations
+│   └── seeders/             # Database Seeders
+└── frontend/
+    ├── src/
+    │   ├── components/      # React Components
+    │   ├── pages/           # App Pages (Home, Cart, Admin...)
+    │   ├── context/         # Cart Context (State Management)
+    │   ├── services/        # Axios API Calls
+    │   └── router/          # React Router Config
+    └── public/
+```
+
+-----
+
+## 🔗 API Endpoints
+
+|Method|Endpoint          |Description           |
+|------|------------------|----------------------|
+|POST  |/api/register     |Register a new user   |
+|POST  |/api/login        |User login            |
+|GET   |/api/profile      |Get user profile      |
+|PUT   |/api/profile      |Update user profile   |
+|GET   |/api/products     |Get all products      |
+|GET   |/api/products/{id}|Get single product    |
+|POST  |/api/products     |Create product (Admin)|
+|PUT   |/api/products/{id}|Update product (Admin)|
+|DELETE|/api/products/{id}|Delete product (Admin)|
+|GET   |/api/cart         |Get cart items        |
+|POST  |/api/cart         |Add item to cart      |
+|PUT   |/api/cart/{id}    |Update cart item      |
+|DELETE|/api/cart/{id}    |Remove item from cart |
+|POST  |/api/orders       |Place an order        |
+|GET   |/api/orders       |Get all orders (Admin)|
+
+-----
+
+## 🚧 Roadmap
+
+- [ ] Payment integration (Stripe)
+- [ ] Order tracking system
+- [ ] Email notifications
+- [ ] Product reviews and ratings
+- [ ] Deploy to production
+
+-----
+
+## 👨‍💻 Author
+
+**Ambroise Zounmenou**
+
+- 🌐 [ambroiseapp.com](https://ambroiseapp.com)
+- 💼 [LinkedIn](https://www.linkedin.com/in/ambroise-zounmenou-87843b30b)
+- 🐙 [GitHub](https://github.com/mmarcos14)
+
+-----
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
