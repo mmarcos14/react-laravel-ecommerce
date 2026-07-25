@@ -17,7 +17,7 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
- public function register(array $data): User
+public function register(array $data): User
 {
     $user = $this->userRepository->create([
         'lastname'  => $data['lastname'] ?? null,
@@ -29,7 +29,7 @@ class UserService
     Auth::login($user);
     request()->session()->regenerate();
 
-    return $user; //
+    return $user;
 }
 
     /**

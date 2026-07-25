@@ -48,8 +48,6 @@ class UserController extends Controller
             return response()->json(['errors'=>'failed saved'],504);
           }
 
-          $this->userService->login($user);
-
             return response()->json(['status'=>200,'message'=>'saved successfully','userc'=>$user]);
 
     }

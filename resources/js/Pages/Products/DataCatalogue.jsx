@@ -123,7 +123,7 @@ export const DataCatalogue = ({ Datas = [], onView, loading }) => {
                                             alt={item.name}
                                         />
                                     </Link>
-
+X
                                     <span className="badge bg-success position-absolute top-0 start-0 m-3 px-3 py-2 rounded-pill">
                                         New
                                     </span>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Services\CartService;
 use App\Services\OrderService;
 use App\Services\ProductService;
@@ -65,7 +66,7 @@ class OrderController extends Controller
         }
 
         //  2. TOTAL CART
-        $total = $this->cartService->TotalCart($request->products);
+        $total = $this->orderService->TotalCart($request->products);
 
         //  3. CREATE ORDER
         $order = $this->orderService->storeOrder(
@@ -90,11 +91,10 @@ class OrderController extends Controller
 
     public function index()
     {
-        $orders = $this->orderService->getOrder();
-
+        $data=Order::where('user_id',Auth::id())->with(['user.adresse','itemsorder.product'])->latest()->get();
         return response()->json([
-            'dataorder' => $orders
+            'dataorder' => $data
         ]);
-        
     }
 }
+
