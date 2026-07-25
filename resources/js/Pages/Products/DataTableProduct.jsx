@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { ModalProduct } from "./ModalProduct";
-import { useAuth } from "../../ServiceContext/ProviderContext";
+import { useAuth } from "../../ServiceContext/ProviderServiceContext";
 
 export const DataTableProduct = ({ Datas = [], refresh}) => {
   const safeData = Array.isArray(Datas) ? Datas : [];
@@ -44,6 +44,13 @@ export const DataTableProduct = ({ Datas = [], refresh}) => {
     const valid=window.confirm("Are you sur ????");
     if(!valid) return
     const response=await OneDelete('product',id)
+
+  }
+
+    const DeleteProductimage=async(id)=>{
+    const valid=window.confirm("Are you sur ????");
+    if(!valid) return
+    const response=await OneDelete('image',id)
 
   }
 
@@ -107,13 +114,12 @@ export const DataTableProduct = ({ Datas = [], refresh}) => {
                   <th className="px-4 py-3">Category</th>
                   <th className="px-4 py-3">Name</th>
                   <th className="px-4 py-3">Price ($)</th>
-                  <th className="py-3">Description</th>
                   <th className="py-3">Photo</th>
                   <th className="text-end px-4 py-3">Actions</th>
                 </tr>
               </thead>
 
-              <tbody>
+              <tbody style={{fontSize:"14px",textDecorationLine:'revert-layer' ,Text:'black'}}>
                 {records.length > 0 ? (
                   records.map((item) => (
                     <tr key={item.id}>
@@ -121,17 +127,13 @@ export const DataTableProduct = ({ Datas = [], refresh}) => {
                         {item.category.name}
                       </td>
                       <td className="px-4 fw-semibold text-dark">
-                        {item.name}
+                        {item.name.substring(0,20)}
                       </td>
                        <td className="px-4 fw-semibold text-dark">
                         {item.price}
                       </td>
 
-                      <td>
-                        <span className="badge rounded-pill  text-bg-primary-subtle text-primary border border-primary-subtle px-3 py-2">
-                          {item.description}
-                        </span>
-                      </td>
+                    
 
                       <td>
                         <div className="d-flex  mx-3 flex-wrap gap-2 text-center">
@@ -145,6 +147,7 @@ export const DataTableProduct = ({ Datas = [], refresh}) => {
                                   width="56"
                                   height="56"
                                   className="rounded-4 object-fit-cover border shadow-sm "
+                                  onClick={()=>DeleteProductimage(t.id)}
                                 />
                               ) : null
                             )

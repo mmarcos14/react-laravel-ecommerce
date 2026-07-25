@@ -1,199 +1,211 @@
+
 import { useMemo, useState } from "react";
 import { useCart } from "../../ServiceContext/ProviderCartContext";
+import { Link } from "react-router-dom";
 
-export const DataCatalogue = ({
-  Datas = [],
-  onView,
-  onEdit,
-  onDelete,
-  onAddToCart
-}) => {
+export const DataCatalogue = ({ Datas = [], onView, loading }) => {
+    const safeData = Array.isArray(Datas) ? Datas : [];
 
-  const safeData = Array.isArray(Datas) ? Datas : [];
+    const [search, setSearch] = useState("");
+    const [perPage, setPerPage] = useState(8);
+    const [currentPage, setCurrentPage] = useState(1);
 
-  const [search, setSearch] = useState("");
-  const [perPage, setPerPage] = useState(8);
-  const [currentPage, setCurrentPage] = useState(1);
+    const { AddToCart } = useCart();
 
-  const filteredProducts = useMemo(() => {
-    const q = search.toLowerCase();
-    return safeData.filter((item) =>
-      [item.name, item.description].some((field) =>
-        String(field ?? "").toLowerCase().includes(q)
-      )
-    );
-  }, [safeData, search]);
+    const filteredProducts = useMemo(() => {
+        const q = search.toLowerCase();
 
-  const totalPages = Math.ceil(filteredProducts.length / perPage);
-  const lastIndex = currentPage * perPage;
-  const firstIndex = lastIndex - perPage;
-  const records = filteredProducts.slice(firstIndex, lastIndex);
+        return safeData.filter((item) =>
+            [item.name, item.description].some((field) =>
+                String(field ?? "").toLowerCase().includes(q),
+            ),
+        );
+    }, [safeData, search]);
 
-  const getImage = (item) => {
-    if (item?.images?.length > 0 && item.images[0]?.name) {
-      return `uploads/products/${item.images[0].name}`;
+    const totalPages = Math.ceil(filteredProducts.length / perPage);
+    const lastIndex = currentPage * perPage;
+    const firstIndex = lastIndex - perPage;
+    const records = filteredProducts.slice(firstIndex, lastIndex);
+
+    if (loading) {
+        return (
+            <div
+                className="container-fluid d-flex justify-content-center align-items-center"
+                style={{ minHeight: "60vh" }}
+            >
+                <div className="text-center">
+                    <div
+                        className="spinner-border text-primary"
+                        style={{ width: "4rem", height: "4rem" }}
+                        role="status"
+                    ></div>
+
+                    <h4 className="mt-4 fw-bold">
+                        Loading Products...
+                    </h4>
+
+                    <p className="text-muted">
+                        Please wait while we load the catalogue.
+                    </p>
+                </div>
+            </div>
+        );
     }
-    return "https://via.placeholder.com/600x400?text=Product";
-  };
 
-  const {AddToCart}=useCart();
+    return (
+        <div className="container py-5">
 
-  return (
-    <div className="container py-4">
+            <div className="row align-items-center mb-5">
 
-      {/* HEADER */}
-      <div className="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+                <div className="col-md-6">
+                    <h2 className="fw-bold">
+                        Product Catalogue
+                    </h2>
 
-        <div>
-          <h3 className="fw-bold">🛍️ Product Catalogue</h3>
-          <small className="text-muted">
-            {filteredProducts.length} products available
-          </small>
-        </div>
-
-        <div className="d-flex gap-2">
-
-          <input
-            className="form-control shadow-sm"
-            placeholder="Search product..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-
-          <select
-            className="form-select shadow-sm"
-            style={{ width: "90px" }}
-            value={perPage}
-            onChange={(e) => setPerPage(Number(e.target.value))}
-          >
-            <option value={4}>4</option>
-            <option value={8}>8</option>
-            <option value={12}>12</option>
-          </select>
-
-        </div>
-      </div>
-
-      {/* GRID */}
-      <div className="row g-4">
-
-        {records.length > 0 ? (
-          records.map((item) => (
-
-            <div className="col-md-3" key={item.id}>
-
-              {/* CARD */}
-              <div className="card border-0 shadow-lg rounded-4 overflow-hidden product-card">
-
-                {/* IMAGE */}
-                <div className="position-relative overflow-hidden">
-
-                  <img
-                    src={getImage(item)}
-                    className="w-100 product-img"
-                    style={{
-                      height: "240px",
-                      objectFit: "cover",
-                      transition: "0.4s"
-                    }}
-                  />
-
-                  {/* BADGE */}
-                  <span className="badge bg-success position-absolute top-0 start-0 m-2">
-                    New
-                  </span>
-
-                  {/* QUICK ACTIONS ON HOVER */}
-                  <div className="product-overlay d-flex flex-column justify-content-center align-items-center gap-2">
-
-                    <button
-                      className="btn btn-light btn-sm"
-                      onClick={() => onView?.(item)}
-                    >
-                      View
-                    </button>
-
-                    <button
-                      className="btn btn-primary btn-sm"
-                      onClick={() => AddToCart(item)}
-                    >
-                      🛒 Add to cart
-                    </button>
-
-                  </div>
-
+                    <p className="text-muted mb-0">
+                        {filteredProducts.length} products available
+                    </p>
                 </div>
 
-                {/* BODY */}
-                <div className="card-body">
+                <div className="col-md-6">
+                    <div className="d-flex justify-content-md-end gap-3 flex-wrap">
 
-                  <h6 className="fw-bold mb-1">{item.name}</h6>
+                        <input
+                            className="form-control shadow-sm rounded-pill"
+                            style={{ maxWidth: "280px" }}
+                            placeholder="Search products..."
+                            value={search}
+                            onChange={(e) =>
+                                setSearch(e.target.value)
+                            }
+                        />
 
-                  <p className="text-muted small mb-2">
-                    {item.description?.substring(0, 60)}...
-                  </p>
+                        <select
+                            className="form-select shadow-sm rounded-pill"
+                            style={{ width: "110px" }}
+                            value={perPage}
+                            onChange={(e) =>
+                                setPerPage(Number(e.target.value))
+                            }
+                        >
+                            <option value={4}>4</option>
+                            <option value={8}>8</option>
+                            <option value={12}>12</option>
+                        </select>
 
-                  <div className="d-flex justify-content-between align-items-center">
-
-                    <span className="fw-bold text-dark">
-                      ${item.price ?? 0}
-                    </span>
-
-                    <small className="text-muted">
-                      Stock: {item.quantity ?? 0}
-                    </small>
-
-                  </div>
-
+                    </div>
                 </div>
-
-              </div>
 
             </div>
 
-          ))
-        ) : (
-          <div className="text-center py-5 text-muted">
-            No products found
-          </div>
-        )}
+            <div className="row g-4">
 
-      </div>
+                {records.length > 0 ? (
+                    records.map((item) => (
+                        <div
+                            className="col-lg-3 col-md-4 col-sm-6"
+                            key={item.id}
+                        >
+                            <div className="card border-0 shadow rounded-4 h-100 overflow-hidden product-card">
 
-      {/* CSS STYLE */}
-      <style>{`
-        .product-card {
-          transition: 0.3s;
-        }
+                                <div className="position-relative overflow-hidden">
 
-        .product-card:hover {
-          transform: translateY(-5px);
-        }
+                                    <Link
+                                        to={`/product/details/${item.id}`}
+                                    >
+                                        <img
+                                            src={`http://127.0.0.1:8000/uploads/products/${item.photo}`}
+                                            className="card-img-top product-img"
+                                            style={{
+                                                height: "250px",
+                                                objectFit: "cover",
+                                            }}
+                                            alt={item.name}
+                                        />
+                                    </Link>
 
-        .product-img {
-          transition: 0.4s;
-        }
+                                    <span className="badge bg-success position-absolute top-0 start-0 m-3 px-3 py-2 rounded-pill">
+                                        New
+                                    </span>
 
-        .product-card:hover .product-img {
-          transform: scale(1.1);
-        }
+                                    <div className="product-overlay d-flex justify-content-center align-items-center gap-2">
 
-        .product-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 100%;
-          width: 100%;
-          background: rgba(0,0,0,0.4);
-          opacity: 0;
-          transition: 0.3s;
-        }
+                                        <button
+                                            className="btn btn-light rounded-pill px-3"
+                                            onClick={() => onView?.(item)}
+                                        >
+                                            View
+                                        </button>
 
-        .product-card:hover .product-overlay {
-          opacity: 1;
-        }
-      `}</style>
+                                        <button
+                                            className="btn btn-primary rounded-pill px-3"
+                                            onClick={() =>
+                                                AddToCart(item)
+                                            }
+                                        >
+                                            🛒 Add
+                                        </button>
 
-    </div>
-  );
+                                    </div>
+
+                                </div>
+
+                                <div className="card-body d-flex flex-column">
+
+                                    <h5 className="fw-bold">
+                                        {item.name?.substring(0,20)}
+                                    </h5>
+
+                                    <p className="text-muted flex-grow-1">
+                                        {item.description?.substring(
+                                            0,
+                                            2,
+                                        )}
+                                        ...
+                                    </p>
+
+                                    <div className="d-flex justify-content-between align-items-center">
+
+                                        <span className="fs-5 fw-bold text-primary">
+                                            ${item.price}
+                                        </span>
+
+                                        <span className="badge bg-light text-dark">
+                                            Stock {item.quantity}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <div className="col-12">
+
+                        <div className="card border-0 shadow-sm rounded-4 py-5">
+
+                            <div className="card-body text-center">
+
+                                <h3 className="fw-bold">
+                                    No products found
+                                </h3>
+
+                                <p className="text-muted mb-0">
+                                    Try another search keyword.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                )}
+
+            </div>
+
+        </div>
+    );
 };
+

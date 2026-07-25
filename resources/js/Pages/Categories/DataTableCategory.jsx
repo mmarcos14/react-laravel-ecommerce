@@ -164,8 +164,17 @@ const [addModal,setModal]=useState(false)
           </div>
         )}
       </div>
-      {addModal && (<CreateModalCategory showm={addModal} HideModal={()=>setModal(false)}/>)}
-      {editshowmodal && (<CreateModalCategory showm={editshowmodal} HideModal={()=>setEditModal(false)} CurrentCategory={currentCat}/>)}
+      {addModal && (<CreateModalCategory
+       showm={addModal} 
+       HideModal={()=>setModal(false)} 
+       refreshlist={refresh}
+       />)}
+      {editshowmodal && (<CreateModalCategory 
+      showm={editshowmodal}
+       HideModal={()=>setEditModal(false)} 
+       CurrentCategory={currentCat}
+       refreshlist={refresh}
+       />)}
     </div>
   );
 };

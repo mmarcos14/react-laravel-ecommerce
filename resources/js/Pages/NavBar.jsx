@@ -1,22 +1,25 @@
 import { Navbar, Container, Nav, Form, Button, Badge } from "react-bootstrap";
 import { useState } from "react";
 import { useCart } from "../ServiceContext/ProviderCartContext";
+import { Link } from "react-router-dom";
+import { useAuth } from "../ServiceContext/ProviderServiceContext";
 
-export const NavBar = ({ cartCount = 0 }) => {
+export const NavBar = () => {
 
-  const [search, setSearch] = useState("");
- const {cart}=useCart();
+   const [search, setSearch] = useState("");
+   const { cart } = useCart();
+   const  {user,logout,getUser}=useAuth();
+
   return (
     <Navbar expand="lg" className="bg-white shadow-sm py-3">
 
       <Container>
 
         {/* LOGO */}
-        <Navbar.Brand className="fw-bold text-primary">
+        <Navbar.Brand as={Link} to="/" className="fw-bold text-primary">
           🛍️ ShoeShop
         </Navbar.Brand>
 
-        {/* TOGGLE MOBILE */}
         <Navbar.Toggle />
 
         <Navbar.Collapse>
@@ -24,9 +27,17 @@ export const NavBar = ({ cartCount = 0 }) => {
           {/* LINKS */}
           <Nav className="me-auto gap-3">
 
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/shop">Shop</Nav.Link>
-            <Nav.Link href="/about">About</Nav.Link>
+            <Link to="/" className="nav-link">
+              Home
+            </Link>
+
+            <Link to="/shop" className="nav-link">
+              Shop
+            </Link>
+
+            <Link to="/about" className="nav-link">
+              About
+            </Link>
 
           </Nav>
 
@@ -47,11 +58,13 @@ export const NavBar = ({ cartCount = 0 }) => {
           {/* CART */}
           <Nav className="align-items-center gap-3">
 
-            <Nav.Link href="/cart" className="position-relative">
-
+            <Link
+              to="/cart"
+              className="nav-link position-relative text-decoration-none"
+            >
               🛒 Cart
 
-              {cart.product.length > 0 && (
+              {cart?.product?.length > 0 && (
                 <Badge
                   bg="danger"
                   className="position-absolute top-0 start-100 translate-middle"
@@ -60,12 +73,20 @@ export const NavBar = ({ cartCount = 0 }) => {
                 </Badge>
               )}
 
-            </Nav.Link>
+            </Link>
 
-            {/* USER */}
-            <Nav.Link href="/login">
+            {/* LOGIN */}
+            {user ? 
+            (
+              <Link onClick={()=>{logout('user');getUser();window.href.reload()}} className="nav-link">
+              👤Logout
+            </Link>
+            ):(
+                <Link to="/login" className="nav-link">
               👤 Login
-            </Nav.Link>
+            </Link>
+            )}
+          
 
           </Nav>
 

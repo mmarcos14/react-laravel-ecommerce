@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -13,6 +14,12 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    protected $userService;
+    public function __construct(UserService $userservice){
+        $this->userService=$userservice;
+    }
+    
     public function index()
     {
         //
@@ -24,7 +31,8 @@ class UserController extends Controller
     public function store(Request $request)
     {
        $validate = Validator::make($request->all(), [
-                    'name' => ['required'],
+                    'lastname' => ['required'],
+                     'firstname' => ['required'],
                     'email' => ['required', 'email', 'unique:users,email'],
                     'password' => ['required', 'confirmed'],
           ]);
@@ -34,21 +42,15 @@ class UserController extends Controller
           }
 
           $data=$validate->validate();
-          $user=User::create([
-            //'ucode'=>$this->getLastCode(),
-            'name'=>$data['name'],
-            'email'=>$data['email'],
-            'password'=>Hash::make($data['password'])
-          ]);
+          $user=$this->userService->register($data,$request);
 
           if(!$user){
             return response()->json(['errors'=>'failed saved'],504);
-
           }
 
-         Auth::login($user);
+          $this->userService->login($user);
 
-            return response()->json(['status'=>200,'message'=>'saved successfully']);
+            return response()->json(['status'=>200,'message'=>'saved successfully','userc'=>$user]);
 
     }
 
@@ -107,7 +109,7 @@ class UserController extends Controller
      ]);
 
      if(!$success){
-        return response()->json(['message'=>'credentials invalid'],422);
+        return response()->json(['message'=>'credentials invalid'],403);
 
      }
       $request->session()->regenerate();
@@ -117,7 +119,12 @@ class UserController extends Controller
     }
 
     public function getUser(){
-        $user=Auth::user();
+        $user=Auth::user()->load('adresse');
         return response()->json(['datauser'=>$user]);
+    }
+
+
+    public function removeuserconnexion(Request $request){
+        return $this->userService->logout($request);
     }
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useAuth } from "../../ServiceContext/ProviderContext";
+import { useAuth } from "../../ServiceContext/ProviderServiceContext";
 import { DataTableProduct } from "./DataTableProduct";
 
 export const ProductList=()=>{

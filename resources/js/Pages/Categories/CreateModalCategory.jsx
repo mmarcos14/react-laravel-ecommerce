@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Button, Form, Modal, Row, Col } from "react-bootstrap";
-import { useAuth } from "../../ServiceContext/ProviderContext";
+import { useAuth } from "../../ServiceContext/ProviderServiceContext";
 
 export const CreateModalCategory = ({
   showm,
   HideModal,
   CurrentCategory,
-  onSubmit
+  onSubmit,
+  refreshlist
 }) => {
 
   const [datacategory, setData] = useState({
@@ -56,6 +57,7 @@ export const CreateModalCategory = ({
       const apiCall = CurrentCategory?.id ? updateOne : CreateOne;
       await apiCall("category", formData);
       HideModal?.();
+      refreshlist?.();
     } catch (e) {
       console.log(e.response?.data);
     }

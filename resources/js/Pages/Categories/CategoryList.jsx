@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { DataTableCategory } from "./DataTableCategory"
-import { useAuth } from "../../ServiceContext/ProviderContext";
+import { useAuth } from "../../ServiceContext/ProviderServiceContext";
 
 export const CategoryList=()=>{
     const [Categories,setCategory]=useState([]);
@@ -17,7 +17,7 @@ export const CategoryList=()=>{
     }
     useEffect(()=>{
        getCategories();
-    },[Categories])
+    },[])
     return(
         <div className="container">
             <div className="row">
