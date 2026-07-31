@@ -11,7 +11,7 @@ export const NavBar = () => {
    const  {user,logout,getUser}=useAuth();
 
   return (
-    <Navbar expand="lg" className="bg-white shadow-sm py-3">
+    <Navbar expand="lg" className="bg-white shadow-sm">
 
       <Container>
 

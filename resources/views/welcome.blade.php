@@ -7,7 +7,7 @@
      rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     @viteReactRefresh
     @vite('resources/js/app.jsx')
-    <title>Appi for as </title>
+    <title>AmbroiseSHOP</title>
 </head>
 <body>
     <div id="app"></div>

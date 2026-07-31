@@ -54,6 +54,6 @@ class OrderService
 
     public function getOrder()
     {
-        $this->orderRepository->getOrders();
+        return $this->orderRepository->getOrders();
     }
 }

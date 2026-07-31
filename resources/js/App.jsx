@@ -17,6 +17,9 @@ import { OrdersList } from "./Pages/UserOrders";
 import { ProductDetails } from "./Pages/Products/ProductDetails";
 import { CategoryProductCatalogue } from "./Pages/Products/CategoryProductCatalogue";
 import "../css/app.css";
+import { Elements } from "@stripe/react-stripe-js";
+import { stripePromise } from "./stripe";
+import { Tfooter } from "./Pages/Tfooter";
 export const App=()=>{
    return(
     <BrowserRouter>
@@ -34,16 +37,22 @@ export const App=()=>{
         <Route path="/products" element={<ProductList/>}/>
         <Route path="/cart" element={<CartPage/>}/>
         <Route path="/shop" element={<Catalogue/>}/>
-       <Route path="/checkout" element={<Checkout/>}/>
        <Route path="/orders" element={<OrdersList/>}/>
        <Route path="/product/details/:id" element={<ProductDetails/>}/>
        <Route path="/c" element={<CategoryProductCatalogue/>}/>
+
+       <Route path="/checkout" element={<Elements stripe={stripePromise}>
+        <Checkout/>
+
+       </Elements>}/>
+
 
 
        
       </Routes>
       </ProviderCartContext>
       </ProviderServiceContext>
+      <Tfooter/>
     </BrowserRouter>
    )
 }

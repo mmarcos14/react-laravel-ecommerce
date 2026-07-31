@@ -56,7 +56,7 @@ body{
 }
 
 .filleimage::-webkit-scrollbar{
-    height: 6px;
+    height: 100px;
 }
 
 .filleimage::-webkit-scrollbar-thumb{
@@ -69,8 +69,8 @@ body{
 }
 
 .filleimage img{
-    width: 90px;
-    height: 90px;
+    width: 120px;
+    height: 120px;
 
     object-fit: cover;
 
@@ -89,3 +89,100 @@ body{
     transform: scale(1.08);
     box-shadow: 0 8px 20px rgba(0,0,0,.15);
 }
+
+
+.product-slider {
+  display: flex;
+  overflow-x: auto;
+  gap: 12px;
+  padding: 10px;
+  scroll-snap-type: x mandatory;
+}
+
+.product-slider::-webkit-scrollbar {
+  height: 4px; /* petit scroll discret */
+}
+
+.product-slider::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
+
+.product-item {
+  flex-shrink: 0;
+  width: 150px;
+  scroll-snap-align: start;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.product-img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.product-info {
+  margin-top: 8px;
+}
+
+.product-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.product-price {
+  font-size: 13px;
+  color: #28a745;
+  margin: 0;
+}
+
+
+/* Images dans la grille (4 par ligne) */
+.card-img-top {
+  width: 100%;
+  height: 180px;      /* fixe la hauteur */
+  object-fit: cover;  /* coupe proprement pour garder la même taille */
+  border-radius: 8px;
+}
+
+/* Images dans le slider horizontal */
+.product-img {
+  width: 100%;
+  height: 140px;      /* taille uniforme */
+  object-fit: cover;  /* très important */
+  border-radius: 8px;
+}
+
+
+
+.product-slider {
+  overflow-x: auto;
+  padding: 10px;
+  white-space: nowrap;
+}
+
+.product-grid {
+  display: inline-block; /* IMPORTANT pour slider */
+  width: max-content;    /* s'adapte au contenu */
+}
+
+.product-item {
+  width: 170px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.product-img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+

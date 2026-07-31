@@ -35,6 +35,7 @@ Route::delete('/image/delete/{id}',[ProductController::class,'destroyImage']);
 
 
 Route::post('/order/store',[OrderController::class,'store']);
+Route::post('/payment/store',[OrderController::class,'createPaymentIntent']);
 Route::get('/order/index',[OrderController::class,'index']);
 
 

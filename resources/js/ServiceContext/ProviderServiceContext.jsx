@@ -79,6 +79,9 @@ export const ProviderServiceContext = ({ children }) => {
         }
     };
 
+
+    //export const STRIPE_PUBLIC_KEY=""
+
     //  LOAD USER ON START
     useEffect(() => {
         getUser();

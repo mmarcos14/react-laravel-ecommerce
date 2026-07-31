@@ -7,9 +7,15 @@ use App\Services\CartService;
 use App\Services\OrderService;
 use App\Services\ProductService;
 use App\Services\UserService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Stripe\PaymentIntent;
+use Stripe\Stripe;
+
+//use Stripe\Stripe;
+//use Stripe\PaymentIntent;
 
 class OrderController extends Controller
 {
@@ -89,12 +95,35 @@ class OrderController extends Controller
         ]);
     }
 
+
+    public function createPaymentIntent(Request $request){
+     if($request->amount > 0){
+        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        
+        if ($request->amount <= 0) {
+            return response()->json([
+                'message' => 'Invalid amount'
+            ], 422);
+        }
+      
+          $paymentIntent = PaymentIntent::create([
+        'amount' => $request->amount * 100, 
+        'currency' => 'usd',
+        'automatic_payment_methods' => [
+        'enabled' => true,
+        ],
+    ]);
+
+    return response()->json([
+        'clientSecret' => $paymentIntent->client_secret
+    ]);
+     }
+      
+    }
+
     public function index()
     {
-        $data=Order::where('user_id',Auth::id())->with(['user.adresse','itemsorder.product'])->latest()->get();
-        return response()->json([
-            'dataorder' => $data
-        ]);
+       return $this->orderService->getOrder();
     }
 }
 

@@ -1,11 +1,16 @@
-import { Catalogue } from "./Catalogue"
-import { ProductList } from "./ProductList"
+import { useState } from "react";
+import { userProduct } from "./DataProductListJson";
 
-export const CategoryProductCatalogue=()=>{
-       return(
-        <div className="container-fluid">
+export const CategoryProductCatalogue = () => {
+    const [categoryId, setCategoryId] = useState(null);
+    const { loading, products, categories } = userProduct(categoryId);
+
+    return (
+        <div className="container-fluid mt-5">
             <div className="row g-4">
-                 <div className="col-lg-2">
+
+                {/* CATEGORIES */}
+                <div className="col-lg-2">
                     <div
                         className="card border-0 shadow-sm rounded-4 position-sticky"
                         style={{ top: "24px" }}
@@ -13,63 +18,89 @@ export const CategoryProductCatalogue=()=>{
                         <div className="card-body p-4">
                             <h5 className="fw-bold mb-4">Category product</h5>
 
-                            <div className="d-flex justify-content-between mb-2">
-                                <span className="text-muted">Products</span>
-                                <span className="fw-semibold">
-                                    
-                                </span>
-                            </div>
+                            <ul className="list-group">
 
-                            <div className="d-flex justify-content-between mb-2">
-                                <span className="text-muted">Items</span>
-                                <span className="fw-semibold">
-                                   
-                                </span>
-                            </div>
+                                {/* ALL */}
+                                <button
+                                    className={`list-group-item ${categoryId === null ? "active" : ""}`}
+                                    onClick={() => setCategoryId(null)}
+                                >
+                                    All
+                                </button>
 
-                            <div className="d-flex justify-content-between mb-2">
-                                <span className="text-muted">Subtotal</span>
-                                <span className="fw-semibold">
-                                  
-                                </span>
-                            </div>
-
-                            <div className="d-flex justify-content-between mb-2">
-                                <span className="text-muted">Shipping</span>
-                                <span className="fw-semibold">
-                                  
-                                </span>
-                            </div>
-
-                            <hr className="my-3" />
-
-                            <div className="d-flex justify-content-between align-items-center mb-4">
-                                <span className="fw-semibold">Total</span>
-                                <span className="fs-4 fw-bold text-success">
-                                
-                                </span>
-                            </div>
-
-                            <div className="d-grid gap-2">
-                             
-                            </div>
+                                {/* CATEGORIES */}
+                                {categories?.map((c) => (
+                                    <button
+                                        key={c.id}
+                                        className={`list-group-item fw-bold ${c.id === categoryId ? "active" : ""}`}
+                                        onClick={() => setCategoryId(c.id)}
+                                    >
+                                        {c.name}
+                                    </button>
+                                ))}
+                            </ul>
                         </div>
                     </div>
                 </div>
+
+                {/* PRODUCTS */}
                 <div className="col-lg-10">
                     <div className="card border-0 shadow-sm rounded-4">
                         <div className="card-body p-4 p-md-5">
-                            <div className="mb-4">
-                              
-                            </div>
 
-                          <Catalogue/>
+                            <h4 className="fw-bold mb-4">Products</h4>
+
+                            {/* SI 6 PRODUITS OU MOINS → GRILLE NORMALE */}
+                            {products.length <= 5 && (
+                                <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3">
+                                    {products.map((p) => (
+                                        <div className="col" key={p.id}>
+                                            <div className="product-item">
+                                                <img
+                                                    src={`http://127.0.0.1:8000/uploads/products/${p.photo}`}
+                                                    alt={p.name.substring(0.10)}
+                                                    className="product-img"
+                                                />
+                                                <div className="product-info">
+                                                    <p className="product-name">{p.name.substring(0,10)}</p>
+                                                    <p className="product-price">${p.price}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* SI PLUS DE 6 PRODUITS → SLIDER MULTI-LIGNES */}
+                            {products.length > 4 && (
+                                <div className="product-slider">
+                                    <div className="product-grid">
+                                        <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-3">
+                                            {products.map((p) => (
+                                                <div className="col" key={p.id}>
+                                                    <div className="product-item">
+                                                        <img
+                                                            src={`http://127.0.0.1:8000/uploads/products/${p.photo}`}
+                                                            alt={p.name.substring(0,10)}
+                                                            className="product-img"
+                                                        />
+                                                        <div className="product-info">
+                                                            <p className="product-name">{p.name.substring(0,10)}</p>
+                                                            <p className="product-price">${p.price}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
                         </div>
                     </div>
                 </div>
 
-               
             </div>
         </div>
-       )
-}
+    );
+};
